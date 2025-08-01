@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<!--
+  Debbie's Day Out - 90s Style Mini-Game
+  A delightful web-based mini-game featuring Debbie's adventures
+  
+  Features:
+  - Three adventure paths: Thrift Store, Beach Picnic, Horseback Riding
+  - Interactive dress-up activities with custom SVG graphics
+  - Mini-games with click sounds and animations
+  - Photo memories with custom backgrounds
+  - Custom pop-up dialogs
+  
+  Author: Debbie's Day Out Team
+  License: MIT
+  Version: 1.0.0
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debbie's Day Out - 90s Style Mini-Game</title>
+    <link rel="stylesheet" href="styles.css?v=1">
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Sans+MS:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+        <!-- Click sound -->
+    <audio id="click-sound" src="assets/audio/click.mp3" preload="auto"></audio>
+
+    <!-- Success sound -->
+    <audio id="success-sound" src="assets/audio/success.mp3" preload="auto"></audio>
+
+    <!-- Camera sound -->
+    <audio id="camera-sound" src="assets/audio/camera.mp3" preload="auto"></audio>
+
+    <!-- Background music -->
+    <audio id="bg-music" src="assets/audio/mall.mp3" preload="auto" loop></audio>
+    
+    <!-- Music Control Button -->
+    <button id="music-control" class="music-btn" onclick="toggleMusic()" title="Toggle Music">
+        🎵
+    </button>
+    
+    <div id="game-container">
+        <!-- Start Screen -->
+        <div id="start-screen" class="screen active">
+            <div class="glitter-bg"></div>
+            <div class="content">
+                <h1 class="title">🎀 Debbie's Day Out 🎀</h1>
+                <p class="subtitle">Let's have a fun day together!</p>
+                <div class="button-container">
+                    <button class="btn btn-primary" onclick="startGame()">Start</button>
+                    <button class="btn btn-secondary" onclick="showAbout()">About</button>
+                    <button class="btn btn-secondary" onclick="exitGame()">Exit</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Plan Selection Screen -->
+        <div id="plan-screen" class="screen">
+            <div class="glitter-bg"></div>
+            <div class="content">
+                <h2>Pick Your Plan!</h2>
+                <p>What would you like to do today?</p>
+                <div class="plan-options">
+                            <div class="plan-card" onclick="selectPlan('mall')">
+          <div class="plan-icon">🏬</div>
+          <h3>Thrift Shopping</h3>
+          <p>Go thrifting and cafe hopping!</p>
+        </div>
+                    <div class="plan-card" onclick="selectPlan('beach')">
+                        <div class="plan-icon">🏖️</div>
+                        <h3>Beach Picnic</h3>
+                        <p>Pack a picnic and enjoy the beach!</p>
+                    </div>
+                    <div class="plan-card" onclick="selectPlan('horse')">
+                        <div class="plan-icon">🐴</div>
+                        <h3>Horseback Riding</h3>
+                        <p>Ride your horse and explore the trails!</p>
+                    </div>
+                </div>
+                <button class="btn btn-secondary" onclick="goBack()">Back</button>
+            </div>
+        </div>
+
+        <!-- Thrift Store Activities -->
+        <div id="mall-screen" class="screen">
+            <div class="glitter-bg"></div>
+            <div class="content">
+                <h2>🏬 Thrift Shopping</h2>
+                
+                <!-- Dress Up Activity -->
+                <div id="mall-dress-up" class="activity active">
+                    <h3>Let's Pick an Outfit!</h3>
+                    <div class="doll-dress-up">
+                        <div class="doll-model">
+                            <img src="assets/vectors/paper-doll.svg" class="paper-doll-img" alt="Paper Doll" draggable="false" />
+                            <div class="doll-outfit">
+                                <img class="dress-overlay" style="display:none;" />
+                                <img class="shoes-overlay" style="display:none;" />
+                                <img class="top-overlay" style="display:none;" />
+                                <img class="bottom-overlay" style="display:none;" />
+
+                            </div>
+                        </div>
+                        <div class="clothing-rack">
+                            <div class="clothing-item" data-type="dress" data-item="pink-dress"><img src="assets/vectors/dress.svg" alt="Pink Dress" class="clothing-icon"> Dress</div>
+                            <div class="clothing-item" data-type="bottom" data-item="skirt"><img src="assets/vectors/skirt.svg" alt="Skirt" class="clothing-icon"> Skirt</div>
+                            <div class="clothing-item" data-type="bottom" data-item="shorts"><img src="assets/vectors/shorts.svg" alt="Shorts" class="clothing-icon"> Shorts</div>
+                            <div class="clothing-item" data-type="shoes" data-item="red-shoes"><img src="assets/vectors/red-shoes.svg" alt="Red Shoes" class="clothing-icon"> Red Shoes</div>
+                            <div class="clothing-item" data-type="shoes" data-item="black-shoes"><img src="assets/vectors/black-shoes.svg" alt="Black Shoes" class="clothing-icon"> Black Shoes</div>
+                            <div class="clothing-item" data-type="top" data-item="jacket"><img src="assets/vectors/jacket.svg" alt="Jacket" class="clothing-icon"> Jacket</div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="validateMallOutfitBeforeNext()">Ready</button>
+                </div>
+
+                <!-- Find & Buy Activity -->
+                <div id="find-buy" class="activity">
+                    <h3>Find Hidden Items!</h3>
+                    <div class="shop-window">
+                        <div class="hidden-item" data-item="sunglasses">🕶️</div>
+                        <div class="hidden-item" data-item="lipstick">💄</div>
+                        <div class="hidden-item" data-item="necklace">📿</div>
+                        <div class="hidden-item" data-item="purse">👜</div>
+                        <div class="hidden-item" data-item="bracelet">💍</div>
+                    </div>
+                    <div class="found-items">
+                        <p>Found: <span id="found-count">0</span>/5</p>
+                    </div>
+                </div>
+
+                <!-- Fashion Show Activity -->
+                <div id="fashion-show" class="activity">
+                    <h3>What a Great Day!</h3>
+                    <div class="mall-photo">
+                        <img src="assets/vectors/mall_pose.svg" alt="Friends Pose" class="mall-photo-img">
+                    </div>
+                    <button class="btn btn-primary" onclick="takePhoto()">Take Photo!</button>
+                    <button class="btn btn-secondary" onclick="finishPlan()">Finish</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Beach Picnic Activities -->
+        <div id="beach-screen" class="screen">
+            <div class="glitter-bg"></div>
+            <div class="content">
+                <h2>🏖️ Beach Picnic</h2>
+                
+                <!-- Swimwear Activity -->
+                <div id="beach-dress-up" class="activity active">
+                    <h3>Let's Pick a Swimsuit!</h3>
+                    <div class="doll-dress-up">
+                        <div class="doll-model">
+                            <img src="assets/vectors/paper-doll.svg" class="paper-doll-img" alt="Paper Doll" draggable="false" />
+                            <div class="doll-outfit">
+                                <img class="dress-overlay" style="display:none;" />
+                                <img class="sunnies-overlay" style="display:none;" />
+                                <img class="hat-overlay" style="display:none;" />
+                                <img class="top-overlay" style="display:none;" />
+                                <img class="bottom-overlay" style="display:none;" />
+
+                            </div>
+                        </div>
+                        <div class="clothing-rack">
+                            <div class="clothing-item" data-type="dress" data-item="swimsuit"><img src="assets/vectors/swimsuit.svg" alt="Swimsuit" class="clothing-icon"> Swimsuit 1</div>
+                            <div class="clothing-item" data-type="dress" data-item="swimwear"><img src="assets/vectors/swimwear.svg" alt="Swimsuit" class="clothing-icon"> Swimsuit 2</div>
+                            <div class="clothing-item" data-type="accessories" data-item="sunnies"><img src="assets/vectors/sunnies.svg" alt="Sunnies" class="clothing-icon"> Sunnies</div>
+                            <div class="clothing-item" data-type="accessories" data-item="hat"><img src="assets/vectors/hat.svg" alt="Hat" class="clothing-icon"> Hat</div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="validateBeachOutfitBeforeNext()">Ready</button>
+                </div>
+
+                <!-- Picnic Prep Activity -->
+                <div id="picnic-prep" class="activity">
+                    <h3>Drag Items into the Picnic Basket!</h3>
+                    <div class="picnic-area">
+                        <div class="picnic-items">
+                            <div class="picnic-item" data-item="burger" draggable="true">
+                                <img src="assets/vectors/burger.svg" alt="Burger" class="picnic-item-img">
+                            </div>
+                            <div class="picnic-item" data-item="watermelon" draggable="true">
+                                <img src="assets/vectors/watermelon.svg" alt="Watermelon" class="picnic-item-img">
+                            </div>
+                            <div class="picnic-item" data-item="water" draggable="true">
+                                <img src="assets/vectors/water.svg" alt="Water" class="picnic-item-img">
+                            </div>
+                            <div class="picnic-item" data-item="sunscreen" draggable="true">
+                                <img src="assets/vectors/sunscreen.svg" alt="Sunscreen" class="picnic-item-img">
+                            </div>
+                        </div>
+                        <div class="picnic-basket" id="drop-zone">
+                            <div class="basket"><img src="assets/vectors/basket.svg" alt="Basket" class="basket-img"></div>
+                            <div class="packed-items"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Photo Time Activity -->
+                <div id="photo-time" class="activity">
+                    <h3>Photo Time!</h3>
+                    <div class="beach-photo">
+                        <img src="assets/vectors/beach-photo.svg" alt="Beach Photo" class="beach-photo-img">
+                    </div>
+                    <button class="btn btn-primary" onclick="takePhoto()">Take Photo!</button>
+                    <button class="btn btn-secondary" onclick="finishPlan()">Finish</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Horseback Riding Activities -->
+        <div id="horse-screen" class="screen">
+            <div class="glitter-bg"></div>
+            <div class="content">
+                <h2>🐴 Horseback Riding</h2>
+                
+                <!-- Get Ready Activity -->
+                <div id="get-ready" class="activity active">
+                    <h3>Let's Dress for Riding!</h3>
+                    <div class="doll-dress-up">
+                        <div class="doll-model">
+                            <img src="assets/vectors/paper-doll.svg" class="paper-doll-img" alt="Paper Doll" draggable="false" />
+                            <div class="doll-outfit">
+                                <img class="boots-overlay" style="display:none;" />
+                                <img class="jacket-overlay" style="display:none;" />
+                                <img class="pants-overlay" style="display:none;" />
+                                <img class="helmet-overlay" style="display:none;" />
+                            </div>
+                        </div>
+                        <div class="clothing-rack">
+                            <div class="clothing-item" data-type="boots" data-item="boots">
+                                <img src="assets/vectors/boots.svg" alt="Riding Boots" class="clothing-icon"> Boots
+                            </div>
+                            <div class="clothing-item" data-type="jacket" data-item="jacket">
+                                <img src="assets/vectors/jacket.svg" alt="Riding Jacket" class="clothing-icon"> Jacket
+                            </div>
+                            <div class="clothing-item" data-type="pants" data-item="pants">
+                                <img src="assets/vectors/pants.svg" alt="Riding Pants" class="clothing-icon"> Pants
+                            </div>
+                            <div class="clothing-item" data-type="helmet" data-item="helmet">
+                                <img src="assets/vectors/helmet.svg" alt="Riding Helmet" class="clothing-icon"> Helmet
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="validateRidingOutfitBeforeNext()">Ready</button>
+                </div>
+
+                <!-- Groom Horse Activity -->
+                <div id="groom-horse" class="activity">
+                    <h3>Groom the Horse!</h3>
+                    <div class="horse-grooming">
+                        <div class="horse"><img src="assets/vectors/horse.svg" alt="Horse" style="width: 200px; height: 200px;"></div>
+                        <div class="grooming-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trail Ride Activity -->
+                <div id="trail-ride" class="activity">
+                    <h3>Awesome Trail Ride!</h3>
+                    <div class="trail-scene">
+                        <div class="doll-riding">
+                            <img src="assets/vectors/trail.svg" alt="Trail Ride" style="width: 300px; height: 200px; object-fit: contain;">
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="takePhoto()">Take Photo!</button>
+                    <button class="btn btn-secondary" onclick="finishPlan()">Finish</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Photo Screen -->
+        <div id="photo-screen" class="screen">
+            <div class="glitter-bg"></div>
+            <div class="content">
+                <h2>📸 Photo Time!</h2>
+                <div class="polaroid">
+                    <div class="photo-content">
+                        <div id="photo-image"></div>
+                        <div class="photo-text">Debbie's Day Out!</div>
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="finishPlan()">Continue</button>
+            </div>
+        </div>
+
+        <!-- About Screen -->
+        <div id="about-screen" class="screen">
+            <div class="glitter-bg"></div>
+            <div class="content">
+                <h2>About Debbie's Day Out</h2>
+                <p>Welcome to Debbie's Day Out! This is a fun 90s-style mini-game where you help Debbie have the perfect day.</p>
+                <p>Choose from three exciting activities:</p>
+                <ul>
+                    <li>🏬 Thrift Shopping - Go thrifting and cafe hopping!</li>
+                    <li>🏖️ Beach Picnic - Pack a picnic and enjoy the beach!</li>
+                    <li>🐴 Horseback Riding - Ride your horse and explore the trails!</li>
+                </ul>
+                <p>Each activity has fun mini-games and ends with a special photo!</p>
+                <button class="btn btn-primary" onclick="goBack()">Back</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Pop-up Modal -->
+    <div id="custom-popup" class="popup-overlay">
+        <div class="popup-content">
+            <div class="popup-header">
+                <h3 id="popup-title">Message</h3>
+            </div>
+            <div class="popup-body">
+                <p id="popup-message">This is a message.</p>
+            </div>
+            <div class="popup-buttons">
+                <button id="popup-ok" class="btn btn-primary">OK</button>
+                <button id="popup-cancel" class="btn btn-secondary" style="display: none;">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <audio id="click-sound" src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIG2m98OScTgwOUarm7blmGgU7k9n1unEiBC13yO/eizEIHWq+8+OWT">
+    </audio>
+
+    <script src="script.js"></script>
+</body>
+</html> 

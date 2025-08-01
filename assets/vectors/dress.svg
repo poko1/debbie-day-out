@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="56.197498mm"
+   height="102.63187mm"
+   viewBox="0 0 56.197498 102.63188"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
+   sodipodi:docname="dress.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="true"
+     inkscape:zoom="0.69753788"
+     inkscape:cx="104.65381"
+     inkscape:cy="181.35216"
+     inkscape:window-width="1920"
+     inkscape:window-height="1001"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-77.264506,-100.43671)">
+    <g
+       id="g106"
+       transform="matrix(0.26458333,0,0,0.26458333,-207.21549,1.8529601)">
+				<path
+   class="st49"
+   d="m 1261.7,627.9 c -6.9,-49.2 -35.4,-109.4 -24.7,-140.1 12.3,-35.5 2.9,-49.2 1.5,-69.5 -1.2,-17.3 -0.8,-41.7 -0.8,-41.7 l -16.5,-4 c 0,0 -2.8,41.5 -39.9,41.5 -37.1,0 -39.9,-41.5 -39.9,-41.5 l -16.5,4 c 0,0 0.4,24.4 -0.8,41.7 -1.4,20.3 -10.9,34 1.5,69.5 10.7,30.7 -17.8,90.9 -24.7,140.1 -4.9,35 -25.7,105.9 -25.7,105.9 0,0 3.9,10.8 19.5,16.2 10.2,3.5 23.4,-0.9 41.2,0 13.2,0.6 29.6,10.5 45.5,10.5 13.9,0 26.4,-6.6 37.6,-8.2 15.8,-2.4 32.1,-1 42.5,-3.9 19.4,-5.3 26.1,-14.6 26.1,-14.6 0,0 -20.9,-70.9 -25.9,-105.9 z"
+   id="path103"
+   style="fill:#ff9a9a" />
+
+				<g
+   id="g105">
+					<g
+   id="g104">
+						<path
+   class="st57"
+   d="m 1181.3,418.6 c 37.5,0 43.3,-38.2 44.1,-44.9 l -4.2,-1 c 0,0 -2.8,41.5 -39.9,41.5 -37.1,0 -39.9,-41.5 -39.9,-41.5 l -4.2,1 c 0.8,6.6 6.6,44.9 44.1,44.9 z"
+   id="path104"
+   style="fill:#ff6161" />
+
+					</g>
+
+				</g>
+
+				<path
+   class="st34"
+   d="m 1243.3,552.8 c -1.1,-4.1 -2.1,-8.1 -3.1,-12 -39,6.4 -78.8,6.4 -117.8,0 -1,3.9 -2,8 -3.1,12 41.1,6.9 82.9,6.9 124,0 z"
+   id="path105"
+   style="fill:#4f1304" />
+
+			</g>
+  </g>
+</svg>

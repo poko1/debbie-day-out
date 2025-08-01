@@ -1,0 +1,40 @@
+{
+  "name": "debbie-day-out",
+  "version": "1.0.0",
+      "description": "A delightful 90s-style web-based mini-game featuring Debbie's adventures",
+  "main": "index.html",
+  "scripts": {
+    "start": "start index.html",
+    "dev": "python -m http.server 8000",
+    "serve": "npx http-server -p 8000"
+  },
+      "keywords": [
+      "debbie",
+    "game",
+    "90s",
+    "nostalgia",
+    "mini-game",
+    "web-game",
+    "html5",
+    "css3",
+    "javascript",
+    "svg",
+    "interactive"
+  ],
+      "author": "Debbie's Day Out Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+          "url": "https://github.com/yourusername/debbie-day-out.git"
+  },
+  "bugs": {
+          "url": "https://github.com/yourusername/debbie-day-out/issues"
+  },
+      "homepage": "https://github.com/yourusername/debbie-day-out#readme",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+} 
