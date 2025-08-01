@@ -457,59 +457,62 @@ function updateHorseProgress() {
 
 // Initialize find and buy activity
 function initializeFindBuy() {
-    foundItems = 0;
-    updateFoundCount();
-  
-    const hiddenItems = document.querySelectorAll('.hidden-item');
-    const placedPositions = [];
-  
-    hiddenItems.forEach(item => {
-      item.classList.remove('found');
-  
-      let x, y;
-      let safe = false;
-  
-      while (!safe) {
-        x = Math.random() * 70 + 15; // left: 15%–85%
-        y = Math.random() * 40 + 10; // top: 10%–50%
-  
-        safe = true;
-  
-        // Check distance from all previous positions
-        for (const pos of placedPositions) {
-          const dx = x - pos.x;
-          const dy = y - pos.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-          if (distance < 15) { // adjust: minimum distance in % units
-            safe = false;
-            break;
+    // Add a small delay to ensure background is loaded
+    setTimeout(() => {
+        foundItems = 0;
+        updateFoundCount();
+      
+        const hiddenItems = document.querySelectorAll('.hidden-item');
+        const placedPositions = [];
+      
+        hiddenItems.forEach(item => {
+          item.classList.remove('found');
+      
+          let x, y;
+          let safe = false;
+      
+          while (!safe) {
+            x = Math.random() * 70 + 15; // left: 15%–85%
+            y = Math.random() * 40 + 10; // top: 10%–50%
+      
+            safe = true;
+      
+            // Check distance from all previous positions
+            for (const pos of placedPositions) {
+              const dx = x - pos.x;
+              const dy = y - pos.y;
+              const distance = Math.sqrt(dx * dx + dy * dy);
+              if (distance < 15) { // adjust: minimum distance in % units
+                safe = false;
+                break;
+              }
+            }
           }
-        }
-      }
-  
-      placedPositions.push({ x, y });
-  
-      item.style.left = x + '%';
-      item.style.top = y + '%';
-  
-      item.onclick = function() {
-        if (!item.classList.contains('found')) {
-          item.classList.add('found');
-          foundItems++;
-          updateFoundCount();
-          addClickEffect(item);
-          playClickSound();
-  
-                     if (foundItems >= totalItems) {
-             setTimeout(async () => {
-               playSuccessSound();
-               await showCustomAlert('Great job! You found all the items!', 'Success!');
-               nextActivity();
-             }, 500);
-           }
-        }
-      };
-    });
+      
+          placedPositions.push({ x, y });
+      
+          item.style.left = x + '%';
+          item.style.top = y + '%';
+      
+          item.onclick = function() {
+            if (!item.classList.contains('found')) {
+              item.classList.add('found');
+              foundItems++;
+              updateFoundCount();
+              addClickEffect(item);
+              playClickSound();
+      
+                          if (foundItems >= totalItems) {
+                  setTimeout(async () => {
+                    playSuccessSound();
+                    await showCustomAlert('Great job! You found all the items!', 'Success!');
+                    nextActivity();
+                  }, 500);
+                }
+            }
+          };
+        });
+    }, 100); // Small delay to ensure background loads first
   }
   
   
@@ -649,28 +652,31 @@ function initializePicnicPrep() {
 
 // Initialize horse grooming
 function initializeHorseGrooming() {
-    groomingProgress = 0;
-    const progressFill = document.querySelector('.progress-fill');
-    const horse = document.querySelector('.horse');
-    
-    if (progressFill && horse) {
-        progressFill.style.width = '0%';
+    // Add a small delay to ensure background is loaded
+    setTimeout(() => {
+        groomingProgress = 0;
+        const progressFill = document.querySelector('.progress-fill');
+        const horse = document.querySelector('.horse');
         
-        horse.onclick = function() {
-            groomingProgress += 10;
-            progressFill.style.width = groomingProgress + '%';
-            addClickEffect(horse);
-            playClickSound();
+        if (progressFill && horse) {
+            progressFill.style.width = '0%';
             
-                         if (groomingProgress >= 100) {
-                 setTimeout(async () => {
-                     playSuccessSound();
-                     await showCustomAlert('The horse is perfectly groomed!', 'Success!');
-                     nextActivity();
-                 }, 500);
-             }
-        };
-    }
+            horse.onclick = function() {
+                groomingProgress += 10;
+                progressFill.style.width = groomingProgress + '%';
+                addClickEffect(horse);
+                playClickSound();
+                
+                             if (groomingProgress >= 100) {
+                     setTimeout(async () => {
+                         playSuccessSound();
+                         await showCustomAlert('The horse is perfectly groomed!', 'Success!');
+                         nextActivity();
+                     }, 500);
+                 }
+            };
+        }
+    }, 100); // Small delay to ensure background loads first
 }
 
 // Take photo
