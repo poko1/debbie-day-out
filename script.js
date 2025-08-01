@@ -543,50 +543,17 @@ function initializePicnicPrep() {
     // Clear packed items
     packedContainer.innerHTML = '';
     
-    // Drag and drop functionality
-    picnicItems.forEach(item => {
-        item.addEventListener('dragstart', function(e) {
-            if (!item.classList.contains('packed')) {
-                item.classList.add('dragging');
-                e.dataTransfer.setData('text/plain', item.dataset.item);
-                e.dataTransfer.effectAllowed = 'move';
-            }
-        });
-        
-        item.addEventListener('dragend', function() {
-            item.classList.remove('dragging');
-        });
-    });
-    
-    // Drop zone event listeners
-    dropZone.addEventListener('dragover', function(e) {
-        e.preventDefault();
-        e.dataTransfer.dropEffect = 'move';
-        dropZone.classList.add('drag-over');
-    });
-    
-    dropZone.addEventListener('dragleave', function(e) {
-        if (!dropZone.contains(e.relatedTarget)) {
-            dropZone.classList.remove('drag-over');
-        }
-    });
-    
-    dropZone.addEventListener('drop', function(e) {
-        e.preventDefault();
-        dropZone.classList.remove('drag-over');
-        
-        const itemType = e.dataTransfer.getData('text/plain');
-        const draggedItem = document.querySelector(`[data-item="${itemType}"]`);
-        
-        if (draggedItem && !draggedItem.classList.contains('packed')) {
+    // Function to pack an item
+    function packItem(item) {
+        if (item && !item.classList.contains('packed')) {
             // Mark item as packed and apply fade effect
-            draggedItem.classList.add('packed');
-            draggedItem.style.opacity = '0.3';
-            draggedItem.style.transform = 'scale(0.9)';
+            item.classList.add('packed');
+            item.style.opacity = '0.3';
+            item.style.transform = 'scale(0.9)';
             
             // Add to basket
             const packedItem = document.createElement('div');
-            const itemImg = draggedItem.querySelector('.picnic-item-img');
+            const itemImg = item.querySelector('.picnic-item-img');
             
             // Position items with left/right inclination based on count (before incrementing)
             if (packedItems === 0) {
@@ -630,24 +597,92 @@ function initializePicnicPrep() {
                 packedItem.appendChild(packedImg);
             } else {
                 // Fallback to text if no image
-                packedItem.textContent = draggedItem.textContent;
+                packedItem.textContent = item.textContent;
                 packedItem.style.fontSize = '1.4rem';
                 packedItem.style.margin = '0px';
             }
             packedContainer.appendChild(packedItem);
             
-            addClickEffect(draggedItem);
+            addClickEffect(item);
             playClickSound();
             
-                         if (packedItems >= totalPackedItems) {
-                 setTimeout(async () => {
-                     playSuccessSound();
-                     await showCustomAlert('Awesome Job! All items are packed!', 'Success!');
-                     nextActivity();
-                 }, 500);
-             }
+            if (packedItems >= totalPackedItems) {
+                setTimeout(async () => {
+                    playSuccessSound();
+                    await showCustomAlert('Awesome Job! All items are packed!', 'Success!');
+                    nextActivity();
+                }, 500);
+            }
         }
-    });
+    }
+    
+    // Check if device supports touch (mobile)
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    
+    if (isTouchDevice) {
+        // Add mobile instruction
+        const picnicHeading = document.querySelector('#picnic-prep h3');
+        if (picnicHeading) {
+            picnicHeading.innerHTML = 'Tap Items to Pack the Basket!';
+        }
+        
+        // Mobile-friendly tap-to-pack system
+        picnicItems.forEach(item => {
+            item.addEventListener('touchstart', function(e) {
+                e.preventDefault();
+                if (!item.classList.contains('packed')) {
+                    packItem(item);
+                }
+            });
+            
+            // Also add click for desktop fallback
+            item.addEventListener('click', function(e) {
+                if (!item.classList.contains('packed')) {
+                    packItem(item);
+                }
+            });
+        });
+    } else {
+        // Desktop drag and drop functionality
+        picnicItems.forEach(item => {
+            item.addEventListener('dragstart', function(e) {
+                if (!item.classList.contains('packed')) {
+                    item.classList.add('dragging');
+                    e.dataTransfer.setData('text/plain', item.dataset.item);
+                    e.dataTransfer.effectAllowed = 'move';
+                }
+            });
+            
+            item.addEventListener('dragend', function() {
+                item.classList.remove('dragging');
+            });
+        });
+        
+        // Drop zone event listeners
+        dropZone.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            dropZone.classList.add('drag-over');
+        });
+        
+        dropZone.addEventListener('dragleave', function(e) {
+            if (!dropZone.contains(e.relatedTarget)) {
+                dropZone.classList.remove('drag-over');
+            }
+        });
+        
+        dropZone.addEventListener('drop', function(e) {
+            e.preventDefault();
+            dropZone.classList.remove('drag-over');
+            
+            const itemType = e.dataTransfer.getData('text/plain');
+            const draggedItem = document.querySelector(`[data-item="${itemType}"]`);
+            
+            if (draggedItem && !draggedItem.classList.contains('packed')) {
+                packItem(draggedItem);
+            }
+        });
+    }
 }
 
 // Initialize horse grooming
