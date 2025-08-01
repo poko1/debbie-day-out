@@ -762,8 +762,83 @@ function resetGame() {
         item.classList.remove('selected');
     });
     
-    // Update doll outfit to clear all overlays
-    updateDollOutfit();
+    // Clear all overlays across all screens
+    clearAllOverlays();
+}
+
+// Clear all overlays across all screens
+function clearAllOverlays() {
+    // Get all screens
+    const allScreens = document.querySelectorAll('.screen');
+    
+    allScreens.forEach(screen => {
+        // Clear dress overlays
+        const dressOverlay = screen.querySelector('.dress-overlay');
+        if (dressOverlay) {
+            dressOverlay.src = '';
+            dressOverlay.style.display = 'none';
+            dressOverlay.classList.remove('swimsuit-overlay');
+        }
+        
+        // Clear shoes overlays
+        const shoesOverlay = screen.querySelector('.shoes-overlay');
+        if (shoesOverlay) {
+            shoesOverlay.src = '';
+            shoesOverlay.style.display = 'none';
+        }
+        
+        // Clear top overlays
+        const topOverlay = screen.querySelector('.top-overlay');
+        if (topOverlay) {
+            topOverlay.src = '';
+            topOverlay.style.display = 'none';
+        }
+        
+        // Clear bottom overlays
+        const bottomOverlay = screen.querySelector('.bottom-overlay');
+        if (bottomOverlay) {
+            bottomOverlay.src = '';
+            bottomOverlay.style.display = 'none';
+        }
+        
+        // Clear accessory overlays
+        const sunniesOverlay = screen.querySelector('.sunnies-overlay');
+        if (sunniesOverlay) {
+            sunniesOverlay.src = '';
+            sunniesOverlay.style.display = 'none';
+        }
+        
+        const hatOverlay = screen.querySelector('.hat-overlay');
+        if (hatOverlay) {
+            hatOverlay.src = '';
+            hatOverlay.style.display = 'none';
+        }
+        
+        // Clear riding overlays
+        const bootsOverlay = screen.querySelector('.boots-overlay');
+        if (bootsOverlay) {
+            bootsOverlay.src = '';
+            bootsOverlay.style.display = 'none';
+        }
+        
+        const jacketOverlay = screen.querySelector('.jacket-overlay');
+        if (jacketOverlay) {
+            jacketOverlay.src = '';
+            jacketOverlay.style.display = 'none';
+        }
+        
+        const pantsOverlay = screen.querySelector('.pants-overlay');
+        if (pantsOverlay) {
+            pantsOverlay.src = '';
+            pantsOverlay.style.display = 'none';
+        }
+        
+        const helmetOverlay = screen.querySelector('.helmet-overlay');
+        if (helmetOverlay) {
+            helmetOverlay.src = '';
+            helmetOverlay.style.display = 'none';
+        }
+    });
 }
 
 // Dress up functionality
